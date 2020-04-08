@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 4.0.3
+- http://www.phpmyadmin.net
+-
+- Servidor: localhost
+- Tiempo de generación: 20-04-2019 a las 19:59:48
+- Versión del servidor: 5.6.11
+- Versión de PHP: 5.6.7
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="http://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="dbwarlin" collation="utf8_general_ci" charset="utf8">
+            <pma:table name="empleados">
+                CREATE TABLE `empleados` (
+                  `Id` int(11) NOT NULL AUTO_INCREMENT,
+                  `Nombre` varchar(40) NOT NULL,
+                  `Apellido` varchar(40) NOT NULL,
+                  `Cedula` char(11) NOT NULL,
+                  `Fecha_Nacimiento` date NOT NULL,
+                  `Telefono` char(10) NOT NULL,
+                  `Estado_civil` char(1) NOT NULL,
+                  `Genero` char(1) NOT NULL,
+                  `Direccion` varchar(255) NOT NULL,
+                  `Email` varchar(60) NOT NULL,
+                  `Condicion` char(1) NOT NULL,
+                  `Fecha_Ingreso` date NOT NULL,
+                  `Fecha_Salida` date DEFAULT NULL,
+                  `Id_Nacionalida` int(11) NOT NULL,
+                  PRIMARY KEY (`Id`),
+                  UNIQUE KEY `Cedula` (`Cedula`),
+                  KEY `Id_Nacionalida` (`Id_Nacionalida`),
+                  CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`Id_Nacionalida`) REFERENCES `nacionalidades` (`Id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="historial_usuario">
+                CREATE TABLE `historial_usuario` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `Id_usuario` int(11) NOT NULL,
+                  `Fecha` date NOT NULL,
+                  `Hora` time NOT NULL,
+                  `Accion` varchar(50) NOT NULL,
+                  `sobre_registro_id` int(11) NOT NULL,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="nacionalidades">
+                CREATE TABLE `nacionalidades` (
+                  `Id` int(11) NOT NULL AUTO_INCREMENT,
+                  `Nombre` varchar(40) NOT NULL,
+                  `Estado` tinyint(1) NOT NULL,
+                  PRIMARY KEY (`Id`),
+                  UNIQUE KEY `Nombre` (`Nombre`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="usuarios">
+                CREATE TABLE `usuarios` (
+                  `Id` int(11) NOT NULL AUTO_INCREMENT,
+                  `Id_Empleado` int(11) NOT NULL,
+                  `Usuario` varchar(40) NOT NULL,
+                  `Pwd` char(128) NOT NULL,
+                  `Estado` tinyint(1) NOT NULL,
+                  `Tipo_usuario` varchar(30) NOT NULL,
+                  PRIMARY KEY (`Id`),
+                  UNIQUE KEY `Usuario` (`Usuario`),
+                  KEY `Id_Empleado` (`Id_Empleado`),
+                  CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`Id_Empleado`) REFERENCES `empleados` (`Id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:procedure name="Accion_usuario">
+                CREATE DEFINER=`warlin`@`%` PROCEDURE `Accion_usuario`(
+                 `@id` INT,
+                 `@accion` VARCHAR( 50 ) ,
+                 `@sobre_id` INT
+                )
+                INSERT INTO historial_usuario
+                ( 
+                    Id_usuario, Accion, Hora, Fecha, sobre_registro_id 
+                ) 
+                VALUES 
+                (
+                @id , @accion , TIME( NOW( ) ) , DATE( NOW( ) ) , @sobre_id
+                )
+            </pma:procedure>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Base de datos: 'dbwarlin'
+    -->
+    <database name="dbwarlin">
+        <!-- Tabla empleados -->
+        <table name="empleados">
+            <column name="Id">1</column>
+            <column name="Nombre">warlin</column>
+            <column name="Apellido">sano</column>
+            <column name="Cedula">003004001</column>
+            <column name="Fecha_Nacimiento">2019-04-23</column>
+            <column name="Telefono">8293290694</column>
+            <column name="Estado_civil">s</column>
+            <column name="Genero">m</column>
+            <column name="Direccion">c/ principal casa 145</column>
+            <column name="Email">warlinsano@gmail.com</column>
+            <column name="Condicion"></column>
+            <column name="Fecha_Ingreso">2019-04-02</column>
+            <column name="Fecha_Salida">2019-04-02</column>
+            <column name="Id_Nacionalida">1</column>
+        </table>
+        <!-- Tabla historial_usuario -->
+        <table name="historial_usuario">
+            <column name="id">1</column>
+            <column name="Id_usuario">5</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">00:00:00</column>
+            <column name="Accion">insetar de prueva</column>
+            <column name="sobre_registro_id">7</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">2</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">06:31:26</column>
+            <column name="Accion">Inicio Seccion</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">3</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">06:33:13</column>
+            <column name="Accion">Inicio Seccion</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">4</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">06:37:53</column>
+            <column name="Accion">Inicio Seccion</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">5</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">07:25:55</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">8</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">6</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">07:26:42</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">8</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">7</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">07:30:12</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">8</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">07:36:25</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">9</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">07:36:42</column>
+            <column name="Accion">CERROR SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">10</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">08:03:31</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">11</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">08:05:24</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">12</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">08:05:26</column>
+            <column name="Accion">CERROR SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">13</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">08:20:32</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">14</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">08:20:48</column>
+            <column name="Accion">CERROR SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">15</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">08:21:03</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">16</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">08:21:04</column>
+            <column name="Accion">CERROR SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">17</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">08:32:11</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">18</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">09:07:48</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">19</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">09:12:24</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">20</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">09:15:06</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">21</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">09:15:23</column>
+            <column name="Accion">CERROR SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">22</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">09:15:37</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">23</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">09:16:00</column>
+            <column name="Accion">CERROR SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">24</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">09:21:42</column>
+            <column name="Accion">INICIO SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <table name="historial_usuario">
+            <column name="id">25</column>
+            <column name="Id_usuario">1</column>
+            <column name="Fecha">2019-04-20</column>
+            <column name="Hora">09:21:58</column>
+            <column name="Accion">CERROR SECCION</column>
+            <column name="sobre_registro_id">1</column>
+        </table>
+        <!-- Tabla nacionalidades -->
+        <table name="nacionalidades">
+            <column name="Id">1</column>
+            <column name="Nombre">DOMINICANO</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">3</column>
+            <column name="Nombre">ECUATORIANO</column>
+            <column name="Estado">0</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">4</column>
+            <column name="Nombre">ESPAÑOL</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">5</column>
+            <column name="Nombre">TURCO</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">6</column>
+            <column name="Nombre">IRAKI</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">8</column>
+            <column name="Nombre">RUSO</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">9</column>
+            <column name="Nombre">TAIWANES</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">10</column>
+            <column name="Nombre">PANAMEÑO</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">11</column>
+            <column name="Nombre">PUERTO RIQUEÑO</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">12</column>
+            <column name="Nombre">PERUANO</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">13</column>
+            <column name="Nombre">UK</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">14</column>
+            <column name="Nombre">US</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">15</column>
+            <column name="Nombre">AFRICANO</column>
+            <column name="Estado">1</column>
+        </table>
+        <table name="nacionalidades">
+            <column name="Id">16</column>
+            <column name="Nombre">COREANO</column>
+            <column name="Estado">1</column>
+        </table>
+        <!-- Tabla usuarios -->
+        <table name="usuarios">
+            <column name="Id">1</column>
+            <column name="Id_Empleado">1</column>
+            <column name="Usuario">warlin</column>
+            <column name="Pwd">MQAyADMANAA=</column>
+            <column name="Estado">1</column>
+            <column name="Tipo_usuario">Admin</column>
+        </table>
+    </database>
+</pma_xml_export>

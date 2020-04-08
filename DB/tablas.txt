@@ -1,0 +1,54 @@
+CREATE TABLE Nacionalidades(
+Id INT AUTO_INCREMENT PRIMARY KEY,
+Nombre VARCHAR(40) NOT NULL,
+Estado BOOLEAN NOT NULL,
+UNIQUE (Nombre)
+)
+
+CREATE TABLE Empleados(
+Id INT AUTO_INCREMENT PRIMARY KEY,
+Nombre VARCHAR(40) NOT NULL,
+Apellido VARCHAR(40) NOT NULL,
+Cedula CHAR(11) NOT NULL,
+Fecha_Nacimiento DATE NOT NULL,
+Telefono CHAR(10) NOT NULL,
+Estado_civil CHAR(1) NOT NULL,
+Genero CHAR(1) NOT NULL,
+Direccion VARCHAR(255) NOT NULL,
+Email VARCHAR(60) NOT NULL,
+Condicion CHAR(1) NOT NULL,
+Fecha_Ingreso DATE NOT NULL,
+Fecha_Salida DATE,
+UNIQUE (Cedula),
+CHECK (Estado_civil IN ('S','C','D','V')),
+CHECK (Genero IN ('M','F')),    
+CHECK (Condicion IN ('A','L','V','S')),
+Id_Nacionalida INT NOT NULL,
+FOREIGN KEY (Id_Nacionalida) REFERENCES Nacionalidades(Id)
+)
+
+CREATE TABLE Usuarios(
+Id INT AUTO_INCREMENT PRIMARY KEY,
+Id_Empleado INT NOT NULL,
+Usuario VARCHAR(40) NOT NULL,
+Pwd CHAR(128) NOT NULL,
+Estado BOOLEAN NOT NULL,
+UNIQUE (Usuario),
+FOREIGN KEY (Id_Empleado) REFERENCES Empleados(Id)
+)
+
+
+
+SELECT SHA2('hola', 512)
+SELECT Id,Id_Empleado,Usuario,Pwd,Estado FROM usuarios
+
+INSERT INTO usuarios (Id_Empleado,Usuario,Pwd,Estado) VALUES (1,'jhoan',sha2('123456',512),1)
+
+INSERT INTO empleados (Nombre,Apellido,Cedula,Fecha_Nacimiento,Telefono,Estado_civil,Genero,Direccion,Email,Condicion,Fecha_Ingreso,Id_Nacionalida) VALUES 
+('Jhoan','Baez','00301115747','1989-04-21','8095697044','S','M','URBANIZACION AESA','jhoanbaez214@gmail.com','A','2015-03-08',1)
+
+
+
+
+SELECT Id, Tipo_usuario, usuario FROM usuarios WHERE Usuario="warlin" AND Pwd="MQAyADMANAA="
+SELECT u.Id, u.Tipo_usuario, u.usuario, e.Condicion  FROM usuarios u, empleados e WHERE (u.Usuario="warlin" AND u.Pwd="MQAyADMANAA=") AND ( e.Id = u.Id_Empleado)
